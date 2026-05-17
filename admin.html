@@ -259,13 +259,12 @@
         }
     });
 
-    // Preview
+    // Preview (tampilkan data tim untuk hapus berdasarkan ID)
     document.getElementById('viewDataBtn').addEventListener('click', function(){
-        const blogs = getJSON(BLOG_KEY, []);
         const teams = getJSON(TEAM_KEY, []);
         const el = document.getElementById('dataPreview');
-        el.style.display='block';
-        el.textContent = JSON.stringify({blogs, teams}, null, 2);
+        el.style.display = 'block';
+        el.textContent = JSON.stringify({ teams }, null, 2);
     });
 
     // init default date
