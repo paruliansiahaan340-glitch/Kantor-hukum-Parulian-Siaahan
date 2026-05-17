@@ -74,45 +74,11 @@
                     <h2>Tambah Blog</h2>
                     <div class="section-divider"></div>
 
-                    <form id="addBlogForm">
-                        <div class="form-row">
-                            <label for="blogTitle">Judul</label>
-                            <input id="blogTitle" name="blogTitle" type="text" required />
-                        </div>
-                        <div class="form-row">
-                            <label for="blogSlug">Slug (untuk link)</label>
-                            <input id="blogSlug" name="blogSlug" type="text" placeholder="contoh: artikel-baru" required />
-                            <span class="muted">Link akan mengarah ke: <b>/Kantor-hukum-Parulian-Siaahan/blog/blog-added.html?slug=<slug></b></span>
-                        </div>
-
-                        <div class="form-row">
-                            <label for="blogDate">Tanggal</label>
-                            <input id="blogDate" name="blogDate" type="date" required />
-                        </div>
-                        <div class="form-row">
-                            <label for="blogAuthor">Author</label>
-                            <input id="blogAuthor" name="blogAuthor" type="text" required />
-                        </div>
-                    
-                        <div class="form-row">
-                            <label for="blogExcerpt">Excerpt / Ringkasan</label>
-                            <textarea id="blogExcerpt" name="blogExcerpt" placeholder="contoh: Singkatnya, artikel ini membahas ..." ></textarea>
-                        </div>
-                        <div class="form-row">
-                            <label for="blogImage">Image URL (opsional)</label>
-                            <input id="blogImage" name="blogImage" type="text" placeholder="contoh: /Kantor-hukum-Parulian-Siaahan/Assets/..." />
-                        </div>
-                        <div class="admin-actions">
-                            <button class="btn btn-primary" type="submit"><i class="fas fa-plus"></i> Tambah Blog</button>
-                            <button class="btn btn-primary" type="button" id="clearBlogsBtn"><i class="fas fa-eraser"></i> Hapus Semua Data Blog Admin</button>
-                            <button class="btn btn-primary" type="button" id="deleteBlogByIdBtn"><i class="fas fa-trash"></i> Hapus Blog (by ID)</button>
-                            <div class="form-row" style="margin-bottom:0;">
-                                <label for="deleteBlogId">ID Blog</label>
-                                <input id="deleteBlogId" type="text" placeholder="contoh: 171..." />
-                            </div>
-
-                        </div>
-                    </form>
+                    <!-- Blog ditonaktifkan: admin hanya bisa menambahkan Tim -->
+                    <div class="muted" style="margin-top:10px;">
+                        Fitur tambah blog dinonaktifkan.
+                    </div>
+                </div>
                 </div>
 
                 <div>
@@ -234,41 +200,7 @@
 
     adminLogoutLink.addEventListener('click', logout);
 
-    // Blog add
-    document.getElementById('addBlogForm').addEventListener('submit', function(e){
-        e.preventDefault();
-        const title = document.getElementById('blogTitle').value.trim();
-        const slug = document.getElementById('blogSlug').value.trim();
-        const date = document.getElementById('blogDate').value;
-        const author = document.getElementById('blogAuthor').value.trim();
-        const excerptEl = document.getElementById('blogExcerpt');
-        const excerpt = excerptEl ? excerptEl.value.trim() : '';
-        const image = document.getElementById('blogImage').value.trim();
-
-        if(!slug){
-            showAlert('Slug blog wajib diisi.', 'error');
-            return;
-        }
-
-        const items = getJSON(BLOG_KEY, []);
-
-        const newItem = {
-            id: crypto && crypto.randomUUID ? crypto.randomUUID() : String(Date.now()),
-            title: escapeHTML(title),
-            slug: slug.replace(/\s+/g,'-').toLowerCase(),
-            date: date,
-            author: escapeHTML(author),
-            excerpt: escapeHTML(excerpt),
-            image: image ? escapeHTML(image) : ''
-        };
-
-        items.unshift(newItem); // newest first
-        setJSON(BLOG_KEY, items);
-
-        this.reset();
-        document.getElementById('blogDate').value = new Date().toISOString().slice(0,10);
-        showAlert('Blog ditambahkan (tanpa menghapus blog yang ada).', 'success');
-    });
+    // Blog add (dinonaktifkan) 
 
     // Team add
     document.getElementById('addTeamForm').addEventListener('submit', function(e){
@@ -293,24 +225,6 @@
 
         this.reset();
         showAlert('Tim ditambahkan (tanpa menghapus tim yang ada).', 'success');
-    });
-
-    // Delete by ID
-    document.getElementById('deleteBlogByIdBtn').addEventListener('click', function(){
-        const id = document.getElementById('deleteBlogId').value.trim();
-        if(!id){
-            showAlert('Masukkan ID blog yang ingin dihapus.', 'error');
-            return;
-        }
-        const items = getJSON(BLOG_KEY, []);
-        const next = (items || []).filter(x => String(x.id) !== id);
-        if(next.length === items.length){
-            showAlert('ID blog tidak ditemukan.', 'error');
-            return;
-        }
-        setJSON(BLOG_KEY, next);
-        document.getElementById('deleteBlogId').value = '';
-        showAlert('Blog berhasil dihapus.', 'success');
     });
 
     document.getElementById('deleteTeamByIdBtn').addEventListener('click', function(){
