@@ -244,13 +244,15 @@
         showAlert('Tim berhasil dihapus.', 'success');
     });
 
-    // Clear
+    // Clear (Blog di nonaktifkan)
+    /* 
     document.getElementById('clearBlogsBtn').addEventListener('click', function(){
         if(confirm('Hapus SEMUA data blog yang ditambahkan admin di browser ini?')){
             setJSON(BLOG_KEY, []);
             showAlert('Data blog admin dihapus.', 'success');
         }
     });
+    */
 
     document.getElementById('clearTeamBtn').addEventListener('click', function(){
         if(confirm('Hapus SEMUA data tim yang ditambahkan admin di browser ini?')){
